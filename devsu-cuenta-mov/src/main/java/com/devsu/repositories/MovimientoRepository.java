@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface MovimientoRepository extends JpaRepository<MovimientoEntity, Long> {
-    Optional<MovimientoEntity> findFirstByCuentaNumeroOrderByCreatedAtDesc(String numeroCuenta);
+    Optional<MovimientoEntity> findFirstByCuentaIdOrderByCreatedAtDesc(Long id);
 
 }

@@ -16,6 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -51,7 +52,7 @@ public class CuentaServiceImpl implements CuentaService {
                 .bodyToMono(ClienteResponse.class)
                .flatMap(o -> {
                    CuentaEntity ce = CuentaMapper.INSTANCE.toCuentaEntidad(cuentaRequest);
-                   ce.setId(o.getId());
+                   ce.setClienteId(o.getId());
                    return Mono.just(ce);
                })
                 .flatMap(cuentaEntity -> cuentaRepository.findByNumero(cuentaEntity.getNumero())
@@ -85,6 +86,7 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
+    @Transactional
     public Mono<Void> eliminar(Long id) {
         return obtener(id).map(CuentaResponse::getId)
                 .doOnNext(cuentaRepository::deleteById)

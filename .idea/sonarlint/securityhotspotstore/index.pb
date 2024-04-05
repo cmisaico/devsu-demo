@@ -75,12 +75,8 @@ H
 devsu-cuenta-mov/HELP.md,8/7/87815e880a9049350148aecc9539054cbb2ac9cd
 I
 devsu-cuenta-mov/mvnw.cmd,b/9/b9838e91a3121935ae33b9f1f09062ae36e10b0c
-i
-9devsu-cliente/src/main/java/com/devsu/models/Persona.java,c/4/c4af92c7d65fd530c83e2e4653358bacdf8448ae
 ƒ
 Sdevsu-cuenta-mov/src/main/java/com/devsu/exceptions/SaldoInsuficienteException.java,9/4/9405d31c7ca8b2198760098965f331e732dac772
-i
-9devsu-cliente/src/main/java/com/devsu/models/Cliente.java,3/7/37e1fdc7cf714ddb082097aa5db4274f5f907acd
 {
 Kdevsu-cuenta-mov/src/main/java/com/devsu/controllers/ReporteController.java,b/c/bcf8460ed31197b8246cc611a19c395f83f6c088
 d
@@ -141,8 +137,6 @@ Edevsu-cuenta-mov/src/main/java/com/devsu/services/ReporteService.java,8/a/8a06
 Ndevsu-cuenta-mov/src/main/java/com/devsu/services/impl/ReporteServiceImpl.java,c/0/c0686ebbb4c1b1b263800e14b31454d40c267fa1
 {
 Kdevsu-cliente/src/main/java/com/devsu/services/impl/ClienteServiceImpl.java,2/9/2947208aa92f88337cd87538aa30d02d924e1b76
-|
-Ldevsu-cuenta-mov/src/test/java/com/devsu/DevsuCuentaMovApplicationTests.java,5/d/5dae512b3239109cc932d00554b7d506bac2d05f
 ~
 Ndevsu-cliente/src/main/java/com/devsu/exceptions/ClienteNoExisteException.java,5/c/5c153657546a02ec9baa1ed6216ef6d5ee86d2b2
 y
@@ -157,8 +151,6 @@ p
 [devsu-cliente/target/generated-sources/annotations/com/devsu/mappers/ClienteMapperImpl.java,2/a/2a807a5fc3b62fb4bf6509f03e08355394ddbf9c
 K
 devsu-cuenta-mov/Dockerfile,b/c/bc335bede5276d2633ed7471325b779092331206
-r
-Bdevsu-cuenta-mov/src/main/java/com/devsu/commons/ContanteUtil.java,6/d/6d9c29353ffbcd5f2bab34fc1f40723569f204f5
 s
 Cdevsu-cuenta-mov/src/main/java/com/devsu/commons/ConstanteUtil.java,b/5/b5502b7c614d608a4bd4821f080422a2246bc881
 p

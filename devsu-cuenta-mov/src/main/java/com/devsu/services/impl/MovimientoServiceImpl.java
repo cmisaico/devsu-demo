@@ -1,6 +1,5 @@
 package com.devsu.services.impl;
 
-
 import com.devsu.commons.FechaUtil;
 import com.devsu.exceptions.*;
 import com.devsu.mappers.MovimientoMapper;
@@ -34,37 +33,37 @@ public class MovimientoServiceImpl implements MovimientoService {
     @Transactional
     @Override
     public Mono<Void> crear(MovimientoRequest movimientoRequest) {
-        Optional<CuentaEntity> cuentaEntity = cuentaRepository.findByNumero(movimientoRequest.getNumeroCuenta());
+        Optional<CuentaEntity> cuentaEntity = cuentaRepository.findById(movimientoRequest.getCuentaId());
         if (cuentaEntity.isEmpty()) {
             return Mono.error(new CuentaNoExisteException());
         }
-        Optional<MovimientoEntity> movimientoEntity = movimientoRepository
-                .findFirstByCuentaNumeroOrderByCreatedAtDesc(movimientoRequest.getNumeroCuenta());
+        Optional<MovimientoEntity> lastMov = movimientoRepository
+                .findFirstByCuentaIdOrderByCreatedAtDesc(movimientoRequest.getCuentaId());
 
-        if(movimientoEntity.isEmpty()){
+        if(lastMov.isEmpty()){
             if(cuentaEntity.get().getSaldoInicial() < 0){
                 return Mono.error(new SaldoNoDisponibleException());
-            } else if(cuentaEntity.get().getSaldoInicial() < Math.abs(movimientoRequest.getValor())){
+            } else if(movimientoRequest.getValor()<0 && cuentaEntity.get().getSaldoInicial() < Math.abs(movimientoRequest.getValor())){
                 return Mono.error(new SaldoInsuficienteException());
             }
-            MovimientoEntity movimientoEntity1 = MovimientoMapper.INSTANCE.toMovimientoEntidad(movimientoRequest);
-            movimientoEntity1.setSaldo(cuentaEntity.get().getSaldoInicial()+movimientoRequest.getValor());
-            movimientoEntity1.setCuenta(cuentaEntity.get());
-            movimientoRepository.save(movimientoEntity1);
+            MovimientoEntity me = MovimientoMapper.INSTANCE.toMovimientoEntidad(movimientoRequest);
+            me.setSaldo(cuentaEntity.get().getSaldoInicial()+movimientoRequest.getValor());
+            me.setCuenta(cuentaEntity.get());
+            movimientoRepository.save(me);
         } else {
-            int result = FechaUtil.parsearFecha(movimientoRequest.getFecha()).compareTo(movimientoEntity.get().getFecha());
+            int result = FechaUtil.parsearFecha(movimientoRequest.getFecha()).compareTo(lastMov.get().getFecha());
             if(result < 0){
                 return Mono.error(new FechaNoValidaException());
             }
-            if(movimientoEntity.get().getSaldo() < 0){
+            if(lastMov.get().getSaldo() < 0){
                 return Mono.error(new SaldoNoDisponibleException());
-            } else if(movimientoEntity.get().getSaldo() < Math.abs(movimientoRequest.getValor())){
+            } else if(movimientoRequest.getValor()<0 && lastMov.get().getSaldo() < Math.abs(movimientoRequest.getValor())){
                 return Mono.error(new SaldoInsuficienteException());
             }
-            MovimientoEntity movimientoEntity1 = MovimientoMapper.INSTANCE.toMovimientoEntidad(movimientoRequest);
-            movimientoEntity1.setSaldo(movimientoEntity.get().getSaldo()+movimientoRequest.getValor());
-            movimientoEntity1.setCuenta(cuentaEntity.get());
-            movimientoRepository.save(movimientoEntity1);
+            MovimientoEntity me = MovimientoMapper.INSTANCE.toMovimientoEntidad(movimientoRequest);
+            me.setSaldo(lastMov.get().getSaldo()+movimientoRequest.getValor());
+            me.setCuenta(cuentaEntity.get());
+            movimientoRepository.save(me);
         }
         return Mono.empty();
     }
@@ -72,10 +71,12 @@ public class MovimientoServiceImpl implements MovimientoService {
     @Override
     public Mono<Void> actualizar(MovimientoRequest movimientoRequest, Long id) {
         return obtener(id).map(o -> {
-                    MovimientoEntity movimientoEntity =
+                    MovimientoEntity me =
                             MovimientoMapper.INSTANCE.toMovimientoEntidad(movimientoRequest);
-                    movimientoEntity.setId(o.getId());
-                    return movimientoEntity;
+                    me.setId(o.getId());
+                    me.setSaldo(o.getSaldo());
+                    me.setCuenta(CuentaEntity.builder().id(movimientoRequest.getCuentaId()).build());
+                    return me;
                 })
                 .doOnNext(movimientoRepository::save)
                 .switchIfEmpty(Mono.error(new MovimientoNoExisteException()))
@@ -85,7 +86,7 @@ public class MovimientoServiceImpl implements MovimientoService {
     @Override
     public Mono<Void> eliminar(Long id) {
         return obtener(id).map(MovimientoResponse::getId)
-                .doOnNext(cuentaRepository::deleteById)
+                .doOnNext(movimientoRepository::deleteById)
                 .switchIfEmpty(Mono.error(new MovimientoNoExisteException()))
                 .then();
     }

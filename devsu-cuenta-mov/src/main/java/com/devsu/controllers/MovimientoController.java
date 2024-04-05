@@ -1,8 +1,6 @@
 package com.devsu.controllers;
 
-import com.devsu.models.requests.CuentaRequest;
 import com.devsu.models.requests.MovimientoRequest;
-import com.devsu.models.responses.CuentaResponse;
 import com.devsu.models.responses.MovimientoResponse;
 import com.devsu.services.MovimientoService;
 import jakarta.validation.Valid;
@@ -42,7 +40,7 @@ public class MovimientoController {
                 .switchIfEmpty(Flux.error(new ResponseStatusException(HttpStatus.NO_CONTENT)));
     }
 
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> actualizar(@Valid @RequestBody MovimientoRequest movimientoRequest,
                                  @PathVariable(required = false) Long id) {

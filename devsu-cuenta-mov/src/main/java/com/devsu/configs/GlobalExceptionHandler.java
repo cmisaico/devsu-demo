@@ -3,6 +3,7 @@ package com.devsu.configs;
 
 import com.devsu.commons.ConstanteUtil;
 import com.devsu.exceptions.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -23,10 +24,26 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MovimientoNoExisteException.class)
+    protected ResponseEntity<Object> handleMovimientoNoExisteException(MovimientoNoExisteException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(ConstanteUtil.MENSAJE, ex.getMessage());
+        return new ResponseEntity<>(errorMap, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(ConstanteUtil.MENSAJE, ex.getMessage());
+        return new ResponseEntity<>(errorMap, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<Object> handleRuntimeException(EntityNotFoundException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(ConstanteUtil.MENSAJE, "El recurso no existe");
         return new ResponseEntity<>(errorMap, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 

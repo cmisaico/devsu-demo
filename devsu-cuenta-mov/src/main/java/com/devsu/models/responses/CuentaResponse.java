@@ -10,4 +10,5 @@ public class CuentaResponse {
     private String tipo;
     private Double saldoInicial;
     private Boolean estado;
+    private Long clienteId;
 }

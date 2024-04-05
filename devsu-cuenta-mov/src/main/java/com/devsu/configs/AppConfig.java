@@ -13,11 +13,8 @@ public class AppConfig {
     private String url;
 
     @Bean
-//    public WebClient registrarWebClient() {
-//        return WebClient.create("http://".concat(url).concat("/clientes"));
-//    }
-        public WebClient registrarWebClient() {
-        return WebClient.create("http://localhost:8001/clientes");
+    public WebClient getWebClient() {
+        return WebClient.create("http://".concat(url).concat("/clientes"));
     }
 
 }

@@ -40,7 +40,7 @@ public class CuentaController {
                 .switchIfEmpty(Flux.error(new ResponseStatusException(HttpStatus.NO_CONTENT)));
     }
 
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> actualizar(@Valid @RequestBody CuentaRequest cuentaRequest,
                                  @PathVariable(required = false) Long id) {

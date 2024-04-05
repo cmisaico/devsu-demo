@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-  postgres16-devsu:
-    container_name: postgres16-devsu
-    image: postgres:16-alpine
+  postgres14-devsu:
+    container_name: postgres14-devsu
+    image: postgres:14-alpine
     ports:
-      - "5532:5432"
+      - "5440:5432"
     environment:
       POSTGRES_PASSWORD: sasa
       POSTGRES_DB: devsudb
     volumes:
-      - data-postgres:/var/lib/postgresql/data
+      - data-postgres14:/var/lib/postgresql/data
     restart: always
     networks:
       - red-devsu
@@ -25,7 +25,7 @@ services:
     networks:
       - red-devsu
     depends_on:
-      - postgres16-devsu
+      - postgres14-devsu
     restart: always
 
   devsu-cuenta-mov:
@@ -40,12 +40,12 @@ services:
     networks:
       - red-devsu
     depends_on:
-      - postgres16-devsu
+      - postgres14-devsu
       - devsu-cliente
     restart: always
 volumes:
-  data-postgres:
-    name: data-postgres
+  data-postgres14:
+    name: data-postgres14
 
 networks:
   red-devsu:
