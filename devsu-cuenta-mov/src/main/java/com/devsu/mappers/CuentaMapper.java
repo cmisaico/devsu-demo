@@ -13,8 +13,8 @@ public interface CuentaMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "movimientos", ignore = true)
-    CuentaEntity cuentaRequestToCuentaEntidad(CuentaRequest cuentaRequest);
+    CuentaEntity toCuentaEntidad(CuentaRequest cuentaRequest);
 
-    CuentaResponse cuentaEntidadToCuentaResponse(CuentaEntity cuentaEntidad);
+    CuentaResponse toCuentaResponse(CuentaEntity cuentaEntidad);
 
 }

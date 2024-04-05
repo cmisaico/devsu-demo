@@ -28,7 +28,7 @@ public class ClienteServiceImpl implements ClienteService {
                 .flatMap(o -> Mono.error(new ClienteExisteException()))
                 .switchIfEmpty(Mono.defer(() -> {
                             ClienteEntity clienteEntityNuevo = ClienteMapper.INSTANCE
-                                    .clienteRequestToClienteEntidad(clienteRequest);
+                                    .toClienteEntidad(clienteRequest);
                             return Mono.just(clienteRepository.save(clienteEntityNuevo));
                         })).then();
     }
@@ -37,7 +37,7 @@ public class ClienteServiceImpl implements ClienteService {
     public Mono<Void> actualizar(ClienteRequest clienteRequest, Long id) {
         return obtener(id).map(o -> {
             ClienteEntity clienteEntity =
-                    ClienteMapper.INSTANCE.clienteRequestToClienteEntidad(clienteRequest);
+                    ClienteMapper.INSTANCE.toClienteEntidad(clienteRequest);
             clienteEntity.setId(o.getId());
             return clienteEntity;
         })
@@ -58,7 +58,7 @@ public class ClienteServiceImpl implements ClienteService {
     public Flux<ClienteResponse> listar() {
         return Flux.defer(() -> Flux.fromStream(
                 clienteRepository.findAll().stream()
-                        .map(ClienteMapper.INSTANCE::clienteEntidadToClienteResponse))
+                        .map(ClienteMapper.INSTANCE::toClienteResponse))
         ).publishOn(Schedulers.parallel());
     }
 
@@ -66,7 +66,7 @@ public class ClienteServiceImpl implements ClienteService {
     public Mono<ClienteResponse> obtener(Long id) {
        return Mono.justOrEmpty(
                clienteRepository.findById(id)
-                       .map(ClienteMapper.INSTANCE::clienteEntidadToClienteResponse));
+                       .map(ClienteMapper.INSTANCE::toClienteResponse));
 
     }
 
@@ -74,7 +74,7 @@ public class ClienteServiceImpl implements ClienteService {
     public Mono<ClienteResponse> obtenerByIdentificacion(String id) {
         return Mono.justOrEmpty(
                 clienteRepository.findByIdentificacion(id)
-                        .map(ClienteMapper.INSTANCE::clienteEntidadToClienteResponse));
+                        .map(ClienteMapper.INSTANCE::toClienteResponse));
     }
 
 

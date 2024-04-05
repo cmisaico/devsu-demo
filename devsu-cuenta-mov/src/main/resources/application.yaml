@@ -1,0 +1,19 @@
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 6
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 2s
+        ignoreExceptions:
+          - java.lang.RuntimeException
+    instances:
+      cuentaService:
+        baseConfig: default
+  timeLimiter:
+    instances:
+      limiteTiempo:
+        timeOutDuration: 7s

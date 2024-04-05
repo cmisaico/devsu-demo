@@ -1,5 +1,6 @@
 package com.devsu.config;
 
+import com.devsu.commons.ConstanteUtil;
 import com.devsu.exceptions.ClienteExisteException;
 import com.devsu.exceptions.ClienteNoExisteException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ClienteNoExisteException.class)
     protected ResponseEntity<Object> handleClienteNoExisteException(ClienteNoExisteException ex) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("mensaje", ex.getMessage());
+        errorMap.put(ConstanteUtil.MENSAJE, ex.getMessage());
         return new ResponseEntity<>(errorMap, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ClienteExisteException.class)
     protected ResponseEntity<Object> handleClienteExisteException(ClienteExisteException ex) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("mensaje", ex.getMessage());
+        errorMap.put(ConstanteUtil.MENSAJE, ex.getMessage());
         return new ResponseEntity<>(errorMap, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
                 .getAllErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+                .toList();
 
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
@@ -50,13 +50,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleValidationErrors(ConstraintViolationException ex) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("mensaje", "Por favor intente ingresar mas tarde");
+        errorMap.put(ConstanteUtil.MENSAJE, "Por favor intente ingresar mas tarde");
         return new ResponseEntity<>(errorMap, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
         Map<String, List<String>> errorMap = new HashMap<>();
-        errorMap.put("mensaje", errors);
+        errorMap.put(ConstanteUtil.MENSAJE, errors);
         return errorMap;
     }
 

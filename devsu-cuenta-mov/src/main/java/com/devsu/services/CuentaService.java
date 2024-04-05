@@ -7,9 +7,8 @@ import reactor.core.publisher.Mono;
 
 public interface CuentaService {
     Mono<Void> crear(CuentaRequest cuentaRequest);
-    Mono<Void> actualizar(CuentaRequest cuentaRequest);
-    Mono<Void> editar(CuentaRequest cuentaRequest);
-    Mono<Void> eliminar(String id);
+    Mono<Void> actualizar(CuentaRequest cuentaRequest, Long id);
+    Mono<Void> eliminar(Long id);
     Flux<CuentaResponse> listar();
     Mono<CuentaResponse> obtener(Long id);
 

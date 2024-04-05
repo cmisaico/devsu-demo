@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Setter @Getter
 public class CuentaResponse {
+    private Long id;
     private String numero;
     private String tipo;
     private Double saldoInicial;

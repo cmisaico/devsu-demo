@@ -1,6 +1,6 @@
 ARG MSVC_NAME=devsu-cliente
 
-FROM openjdk:17-jdk-alpine as builder
+FROM openjdk:17-jdk-alpine AS builder
 
 ARG MSVC_NAME
 

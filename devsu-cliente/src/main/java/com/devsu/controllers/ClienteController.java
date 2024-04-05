@@ -29,7 +29,7 @@ public class ClienteController {
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<ClienteResponse> obtener(@PathVariable(required = false) Long id) {
+    public Mono<ClienteResponse> obtener(@PathVariable(required = false) Long id){
         return clienteService.obtener(id)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NO_CONTENT)));
     }

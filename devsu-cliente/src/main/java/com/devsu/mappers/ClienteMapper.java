@@ -12,9 +12,9 @@ public interface ClienteMapper {
     ClienteMapper INSTANCE = Mappers.getMapper(ClienteMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    ClienteEntity clienteRequestToClienteEntidad(ClienteRequest clienteRequest);
+    ClienteEntity toClienteEntidad(ClienteRequest clienteRequest);
 
-    ClienteResponse clienteEntidadToClienteResponse(ClienteEntity clienteEntidad);
+    ClienteResponse toClienteResponse(ClienteEntity clienteEntidad);
 
 
 }

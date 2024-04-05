@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  postgres14-devsu:
+  postgres16-devsu:
     container_name: postgres16-devsu
     image: postgres:16-alpine
     ports:
@@ -48,5 +48,5 @@ volumes:
     name: data-postgres
 
 networks:
-  spring:
+  red-devsu:
     name: red-devsu
